@@ -11,7 +11,7 @@ suite('Extension Test Suite', () => {
 	});
 
   test('Provides declared configuration', () => {
-    const config = vscode.workspace.getConfiguration('regex-diag');
+    const config = vscode.workspace.getConfiguration('global-linter');
 
     assert.ok(config.has('rules'));
   });

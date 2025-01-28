@@ -1,13 +1,13 @@
 {
-    "name": "regex-diag",
-    "displayName": "regex-diag",
-    "description": "regex-diag lets you configure simple code diagnostics from regular expressions.",
+    "name": "global-regex",
+    "displayName": "Global Regex",
+    "description": "Regex linter rules for any language.",
     "repository": {
         "type": "git",
-        "url": "https://github.com/richardcarls/vscode-regex-diag"
+        "url": "https://github.com/pit00/vscode-global-linter"
     },
     "bugs": {
-        "url": "https://github.com/richardcarls/vscode-regex-diag/issues"
+        "url": "https://github.com/pit00/vscode-global-linter/issues"
     },
     "keywords": [
         "linter",
@@ -18,11 +18,6 @@
     ],
     "version": "0.3.0",
     "license": "MIT",
-    "author": {
-        "name": "Rick Carls",
-        "email": "richard.j.carls@gmail.com",
-        "url": "https://github.com/richardcarls/"
-    },
     "main": "./out/extension.js",
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -45,13 +40,12 @@
         "mocha": "^9.2.2",
         "typescript": "^4.5.5"
     },
-    "publisher": "richardcarls",
+    "publisher": "pit00",
     "galleryBanner": {
         "color": "#C20F08",
         "theme": "dark"
     },
-    "icon": "assets/icon-dark.png",
-    "qna": "https://github.com/richardcarls/vscode-regex-diag/issues",
+    "icon": "assets/icon.png",
     "engines": {
         "vscode": "^1.0.0"
     },
@@ -64,9 +58,9 @@
     "contributes": {
         "configuration": {
             "type": "object",
-            "title": "regex-diag",
+            "title": "global-linter",
             "properties": {
-                "regex-diag.rules": {
+                "global-linter.rules": {
                     "type": "array",
                     "minLength": 1,
                     "default": [],
@@ -93,9 +87,9 @@
                                 "description": "A regular expression pattern for this rule."
                             },
                             "flags": {
-                              "type": "string",
-                              "minLength": 1,
-                              "description": "Flags to enable on the pattern. If omitted, default is \"g\""
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Flags to enable on the pattern. If omitted, default is \"g\""
                             },
                             "message": {
                                 "type": "string",
@@ -117,7 +111,7 @@
                     },
                     "description": "An array of diagnostic rule definitions."
                 },
-                "regex-diag.exclude": {
+                "global-linter.exclude": {
                     "type": "array",
                     "default": [],
                     "items": {

@@ -1,7 +1,4 @@
-[![Github Package Version](https://img.shields.io/github/package-json/v/richardcarls/vscode-regex-diag)](https://marketplace.visualstudio.com/items?itemName=richardcarls.regex-diag)
-[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/richardcarls.regex-diag)](https://marketplace.visualstudio.com/items?itemName=richardcarls.regex-diag)
-
-# regex-diag
+# Global Linter
 
 Extension for [Visual Studio Code](https://code.visualstudio.com/) that lets you configure simple code diagnostics from regular expressions.
 
@@ -23,7 +20,7 @@ Extension for [Visual Studio Code](https://code.visualstudio.com/) that lets you
 
 ```json
 // settings.json
-"regex-diag.rules": [
+"global-linter.rules": [
   {
     "name": "example-rule",
     "languages": ["html"],

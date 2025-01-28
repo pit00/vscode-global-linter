@@ -4,14 +4,14 @@ import * as vscode from 'vscode';
 import { Linter, LinterRule } from './Linter';
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('regex-diag extension is now active');
+  // console.log('global-linter extension is now active');
 
   const linters: Linter[] = [];
 
   vscode.workspace.onDidChangeConfiguration(
     (e) => {
-      if (e.affectsConfiguration('regex-diag')) {
-        console.log('Configuration change detected, recreating linters..');
+      if (e.affectsConfiguration('global-linter')) {
+        // console.log('Configuration change detected, recreating linters..');
         createLinters();
       }
     },
@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
       linters.pop()!.dispose();
     }
 
-    const config = vscode.workspace.getConfiguration('regex-diag');
+    const config = vscode.workspace.getConfiguration('global-linter');
     const rules = config.get('rules') as LinterRule[];
     // const exclude = config.get('exclude') as string[];
 
@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       context.subscriptions.push(linter);
 
-      console.log(`created linter for rule ${rule.name}`);
+      // console.log(`created linter for rule ${rule.name}`);
     }
   }
 }
