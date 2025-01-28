@@ -1,6 +1,6 @@
 {
     "name": "global-regex",
-    "displayName": "Global Regex",
+    "displayName": "Global Linter",
     "description": "Regex linter rules for any language.",
     "repository": {
         "type": "git",
@@ -16,7 +16,7 @@
         "highlight",
         "problems"
     ],
-    "version": "0.3.0",
+    "version": "0.4.0",
     "license": "MIT",
     "main": "./out/extension.js",
     "scripts": {
@@ -42,7 +42,6 @@
     },
     "publisher": "pit00",
     "galleryBanner": {
-        "color": "#C20F08",
         "theme": "dark"
     },
     "icon": "assets/icon.png",
@@ -67,8 +66,7 @@
                     "items": {
                         "required": [
                             "name",
-                            "pattern",
-                            "message"
+                            "pattern"
                         ],
                         "properties": {
                             "name": {
@@ -94,7 +92,7 @@
                             "message": {
                                 "type": "string",
                                 "minLength": 1,
-                                "description": "The diagnostic message to display for this rule."
+                                "description": "The diagnostic message to display for this rule, default is severity"
                             },
                             "severity": {
                                 "type": "string",
@@ -121,5 +119,6 @@
                 }
             }
         }
-    }
+    },
+    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

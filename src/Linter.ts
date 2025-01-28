@@ -5,7 +5,7 @@ export interface LinterRule {
     languages?: string[];
     pattern: string;
     flags?: string;
-    message: string;
+    message?: string;
     severity: string;
 }
 
@@ -17,19 +17,20 @@ export class Linter implements vscode.Disposable {
     private name: string;
     private languages?: string[];
     private pattern: RegExp;
-    private message: string;
+    private message?: string;
     private severity: vscode.DiagnosticSeverity;
     
     constructor(rule: LinterRule) {
         this.name = rule.name;
         this.languages = rule.languages;
         this.pattern = new RegExp(rule.pattern, rule.flags ?? 'g');
-        this.message = rule.message;
+        // this.message = rule.message;
         
         const [fgColor, bgColor, bdColor] = (() => {
             switch (rule.severity) {
                 case 'Error':
                     this.severity = vscode.DiagnosticSeverity.Error;
+                    this.message = rule.message ?? "Error"
                     return [
                         new vscode.ThemeColor('editorError.foreground'),
                         new vscode.ThemeColor('editorError.background'),
@@ -38,6 +39,7 @@ export class Linter implements vscode.Disposable {
                 
                 case 'Information':
                     this.severity = vscode.DiagnosticSeverity.Information;
+                    this.message = rule.message ?? "Information"
                     return [
                         new vscode.ThemeColor('editorInfo.foreground'),
                         new vscode.ThemeColor('editorInfo.background'),
@@ -46,6 +48,7 @@ export class Linter implements vscode.Disposable {
                 
                 case 'Hint':
                     this.severity = vscode.DiagnosticSeverity.Hint;
+                    this.message = rule.message ?? "Hint"
                     return [
                         new vscode.ThemeColor('editorHint.foreground'),
                         new vscode.ThemeColor('editorHint.background'),
@@ -54,6 +57,7 @@ export class Linter implements vscode.Disposable {
                 
                 default:
                     this.severity = vscode.DiagnosticSeverity.Warning;
+                    this.message = rule.message ?? "Warning"
                     return [
                         new vscode.ThemeColor('editorWarning.foreground'),
                         new vscode.ThemeColor('editorWarning.background'),
@@ -64,14 +68,13 @@ export class Linter implements vscode.Disposable {
         
         // Decorations
         this.decorationType = vscode.window.createTextEditorDecorationType({
+            backgroundColor: bgColor,
             // color: fgColor,
             borderColor: bdColor,
-            backgroundColor: bgColor,
-            overviewRulerColor: fgColor,
-            
             borderWidth: '1px',
             borderStyle: 'solid',
-            overviewRulerLane: vscode.OverviewRulerLane.Right,
+            overviewRulerColor: fgColor,
+            overviewRulerLane: vscode.OverviewRulerLane.Full
         });
         
         this.subscriptions.push(this.decorationType);
@@ -122,7 +125,7 @@ export class Linter implements vscode.Disposable {
                 const range = new vscode.Range(start, end);
                 const message = s.replace(
                     new RegExp(this.pattern.source),
-                    this.message
+                    this.message!
                 );
                 
                 diagnostics.push({

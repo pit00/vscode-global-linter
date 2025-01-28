@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.4.0
+Change decorator color options and optional message
+
 ## 0.3.0
 Rules now support regexp flags
 
