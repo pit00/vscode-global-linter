@@ -1,6 +1,6 @@
 {
-    "name": "global-regex",
-    "displayName": "Global Linter",
+    "name": "global-linter",
+    "displayName": "Global Linter Regex",
     "description": "Regex linter rules for any language.",
     "repository": {
         "type": "git",
@@ -16,7 +16,7 @@
         "highlight",
         "problems"
     ],
-    "version": "0.4.1",
+    "version": "0.4.3",
     "license": "MIT",
     "main": "./out/extension.js",
     "scripts": {
