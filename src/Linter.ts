@@ -7,6 +7,10 @@ export interface LinterRule {
     flags?: string;
     message?: string;
     severity: string;
+    deco?: boolean;
+    back?: string;
+    ruler?: string;
+    bord?: string;
 }
 
 export class Linter implements vscode.Disposable {
@@ -19,64 +23,76 @@ export class Linter implements vscode.Disposable {
     private pattern: RegExp;
     private message?: string;
     private severity: vscode.DiagnosticSeverity;
+    private deco?: boolean;
+    private back?: string;
+    private ruler?: string;
+    private bord?: string;
     
     constructor(rule: LinterRule) {
         this.name = rule.name;
         this.languages = rule.languages;
         this.pattern = new RegExp(rule.pattern, rule.flags ?? 'g');
         // this.message = rule.message;
+        this.deco = rule.deco ?? true;
+        this.back = rule.back;
+        this.ruler = rule.ruler;
+        this.bord = rule.bord;
         
-        const [fgColor, bgColor, bdColor] = (() => {
+        const [rlColor, bgColor, bdColor] = (() => {
             switch (rule.severity) {
                 case 'Error':
                     this.severity = vscode.DiagnosticSeverity.Error;
                     this.message = rule.message ?? "Error"
                     return [
-                        new vscode.ThemeColor('editorError.foreground'),
-                        new vscode.ThemeColor('editorError.background'),
-                        new vscode.ThemeColor('editorError.border')
+                        this.ruler ?? new vscode.ThemeColor('editorError.foreground'),
+                        this.back ?? new vscode.ThemeColor('editorError.background'),
+                        this.bord ?? new vscode.ThemeColor('editorError.border')
                     ];
                 
                 case 'Information':
                     this.severity = vscode.DiagnosticSeverity.Information;
                     this.message = rule.message ?? "Information"
                     return [
-                        new vscode.ThemeColor('editorInfo.foreground'),
-                        new vscode.ThemeColor('editorInfo.background'),
-                        new vscode.ThemeColor('editorInfo.border')
+                        this.ruler ?? new vscode.ThemeColor('editorInfo.foreground'),
+                        this.back ?? new vscode.ThemeColor('editorInfo.background'),
+                        this.bord ?? new vscode.ThemeColor('editorInfo.border')
                     ];
                 
                 case 'Hint':
                     this.severity = vscode.DiagnosticSeverity.Hint;
                     this.message = rule.message ?? "Hint"
                     return [
-                        new vscode.ThemeColor('editorHint.foreground'),
-                        new vscode.ThemeColor('editorHint.background'),
-                        new vscode.ThemeColor('editorHint.border')
+                        this.ruler ?? new vscode.ThemeColor('editorHint.foreground'),
+                        this.back ?? new vscode.ThemeColor('editorHint.background'),
+                        this.bord ?? new vscode.ThemeColor('editorHint.border')
                     ];
                 
                 default:
                     this.severity = vscode.DiagnosticSeverity.Warning;
                     this.message = rule.message ?? "Warning"
                     return [
-                        new vscode.ThemeColor('editorWarning.foreground'),
-                        new vscode.ThemeColor('editorWarning.background'),
-                        new vscode.ThemeColor('editorWarning.border')
+                        this.ruler ?? new vscode.ThemeColor('editorWarning.foreground'),
+                        this.back ?? new vscode.ThemeColor('editorWarning.background'),
+                        this.bord ?? new vscode.ThemeColor('editorWarning.border')
                     ];
             }
         })();
         
-        // Decorations
-        this.decorationType = vscode.window.createTextEditorDecorationType({
-            backgroundColor: bgColor,
-            // color: fgColor,
-            borderColor: bdColor,
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            overviewRulerColor: fgColor,
-            overviewRulerLane: vscode.OverviewRulerLane.Full
-        });
-        
+        if (this.deco) {
+            // Decorations
+            this.decorationType = vscode.window.createTextEditorDecorationType({
+                backgroundColor: bgColor,
+                // color: fgColor,
+                borderColor: bdColor,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                overviewRulerColor: rlColor,
+                overviewRulerLane: vscode.OverviewRulerLane.Right
+            });
+            
+        } else {
+            this.decorationType = vscode.window.createTextEditorDecorationType({});
+        }
         this.subscriptions.push(this.decorationType);
         
         // Register event listeners
